@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
 import useAuth from '../hooks/useAuth'
 import useUser from '../hooks/useUser';
+import Balance from './Balance';
+
 
 export default function Home() {
     const { user } = useAuth();
     const getUser = useUser()
+
 
     useEffect(() => {
         getUser()
@@ -16,6 +19,8 @@ export default function Home() {
                 <div className='row'>
                     <div className="mb-12">
                         {user?.email !== undefined ? 'List user Ethereum balance' : 'Please login first'}
+                        {user?.email !== undefined ? <Balance address={user.ethereum_wallet_address} />: ''}
+
                     </div>
                 </div>
             </h2>

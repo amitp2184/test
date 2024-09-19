@@ -4,6 +4,20 @@ from django.middleware import csrf
 from rest_framework import exceptions as rest_exceptions, response, decorators as rest_decorators, permissions as rest_permissions
 from rest_framework_simplejwt import tokens, views as jwt_views, serializers as jwt_serializers, exceptions as jwt_exceptions
 from user import serializers, models
+from web3 import Web3
+from django.http import JsonResponse
+
+
+@rest_decorators.api_view(["GET"])
+@rest_decorators.permission_classes([])
+def getBalanceView(request, address):
+    infura_url = settings.INFURA_URL
+    web3 = Web3(Web3.HTTPProvider(infura_url))
+    print(f"web3 is {web3}")
+    balance = web3.eth.get_balance(address)
+    print(f"balance is {balance}")
+    balance_eth = web3.fromWei(balance, 'ether')
+    return JsonResponse({'balance': balance_eth})
 
 
 def get_user_tokens(user):

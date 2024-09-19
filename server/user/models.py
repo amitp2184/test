@@ -15,7 +15,8 @@ class UserManager(BaseUserManager):
             raise ValueError("Email is required")
 
         user = self.model(
-            email=self.normalize_email(email)
+            email=self.normalize_email(email),
+            ethereum_wallet_address=kwargs.get("ethereum_wallet_address")
         )
 
         user.set_password(password)
@@ -43,6 +44,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(null=False, blank=False, unique=True)
     first_name = models.CharField(max_length=50, blank=False, null=False, default='Default first name')
     last_name = models.CharField(max_length=50, blank=False, null=False, default='Default last name')
+    ethereum_wallet_address = models.TextField(null=True, blank=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

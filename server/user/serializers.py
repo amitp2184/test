@@ -9,7 +9,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ("first_name", "last_name", "email", "password", "password2")
+        fields = ("first_name", "last_name", "email", "password", "password2", "ethereum_wallet_address")
         extra_kwargs = {
             "password": {"write_only": True},
             "password2": {"write_only": True}
@@ -20,11 +20,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
             email=self.validated_data["email"],
             first_name=self.validated_data["first_name"],
             last_name=self.validated_data["last_name"],
+            ethereum_wallet_address=self.validated_data["ethereum_wallet_address"],
         )
 
         password = self.validated_data["password"]
         password2 = self.validated_data["password2"]
-
+        ethereum_wallet_address = self.validated_data["ethereum_wallet_address"]
+        if ethereum_wallet_address is None or ethereum_wallet_address == "":
+            raise serializers.ValidationError({"ethereum_wallet_address": "wallet address cannot be null or empty"})
         if password != password2:
             raise serializers.ValidationError(
                 {"password": "Passwords do not match!"})
@@ -44,4 +47,4 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ("id", "email", "is_staff", "first_name", "last_name")
+        fields = ("id", "email", "is_staff", "first_name", "last_name", "ethereum_wallet_address")

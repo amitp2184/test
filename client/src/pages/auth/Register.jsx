@@ -10,6 +10,7 @@ export default function Register() {
     const email = useRef()
     const password = useRef()
     const password2 = useRef(undefined)
+    const ethereum_wallet_address = useRef()
 
 
     async function onSubmitForm(event) {
@@ -19,7 +20,8 @@ export default function Register() {
             last_name: last_name.current.value,
             email: email.current.value,
             password: password.current.value,
-            password2: password2.current.value
+            password2: password2.current.value,
+            ethereum_wallet_address: ethereum_wallet_address.current.value
           };
 
         setLoading(true)
@@ -48,6 +50,9 @@ export default function Register() {
                 </div>
                 <div className="mb-3">
                     <input type="email" placeholder='Email' autoComplete='off' className='form-control' id="email" ref={email} />
+                </div>
+                <div className="mb-3">
+                    <input type="text" placeholder='Ethereum wallet address' autoComplete='off' className='form-control' id='ethereum_wallet_address' ref={ethereum_wallet_address} />
                 </div>
                 <div className="mb-3">
                     <input type="password" placeholder='Password' autoComplete='off' className='form-control' id="password" ref={password} />
